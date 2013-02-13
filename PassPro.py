@@ -1,5 +1,5 @@
 class arrays:
-  a = list('a@A4')
+	a = list('aA@4')
 	b = list('bB8')
 	c = list('cC(')
 	d = list('dD')
@@ -25,38 +25,75 @@ class arrays:
 	x = list('xX')
 	y = list('yY')
 	z = list('zZ')
-
+	#abc = list('abcdefghijklmnopqrstuvwxyz')
+	#ABC = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+	#123 = list('1234567890')
+	#spl = list('~`!@#$%^&*()-_+=')
+	
 """
-num = 'a'
-num2 = 'b'
+	num = 'a'
+	num2 = 'b'
 
-z = getattr(arrays(), num)
-z2 = getattr(arrays(), num2)
+	z = getattr(arrays(), num)
+	z2 = getattr(arrays(), num2)
 
-print (z)
-print (z2)
+	print (z)
+	print (z2)
 """
+
+
+	
+	
+
 
 word = input('Input word: ')	#Input from User
 
 word = word.lower()				#Converts input to all Lowercase
 
-wordStart = list(word)			#Takes each letter of the word and puts it in array
+workingWord = list(word)		#Takes each letter of the word and puts it in array
 
+print("\nstarting word:", word)	#~~~TESTING~~~
 
+a=0
+length = len (getattr(arrays(), word[a]) )	#gets length of characterset for first letter
+print ("length", length)	#~~~TESTING~~~
+print("\nTest...\n")		#~~~TESTING~~~
 
-print()
-print("Test...")
-
-
-for i in range(len(word)):
+tempChar = getattr(arrays(), word[a])	#Pulls the current working value from the character array and assignes it to temp
+for i in range(length):		#Loops through leet characters of first element
+	workingWord[a] = tempChar[i]		#Assigns current character to word
+	print("\nWorking Word: ", "".join(workingWord))
+	print("word:" + str(workingWord))	#Prints the output with out the crap around the list, that is what .join is for
+	#print("WOrking word output:" + str(workingWord))
 	
-	print(getattr(arrays(), wordStart[i]))
 
 
+	
+"""	
+
+class endgame:
+	done = 0
+	for i in range(len(workingWord)):		
+		lastElement = getattr(arrays(), word[i])
+		if workingWord[i] == lastElement[-1]:
+			done += 1
+		#else BREAK
+		#if done == len(workingWord)
+#program finished
+	
+
+class cycle:
+	
+	tempChar = getattr(arrays(), word[a])	#Pulls the current working value from the character array and assignes it to temp
+	
+	for i in range(length):		#Loops through leet characters of first element
+		workingWord[a] = tempChar[i]		#Assigns current character to word
+		print("\nWorking Word: ", "".join(workingWord))
+		#print("word:" + str(workingWord))	#Prints the output with out the crap around the list, that is what .join is for
+		print("WOrking word output:" + str(workingWord))
 
 
-""" EXAMPLE STUFFs...
+EXAMPLE STUFFs...
 
 #"sqlimg%d" % var
 
@@ -68,6 +105,14 @@ for i in range(len(word)):
 	
 	print(wordStart[i])
 
+	
+	
+	
+how do i print something in python with out all the formating crap?
+statement~~~~~: print ('Working word output: ', workingWord)
+actual output~~~: Working word output: ['a', 's']
+desired output~: Working word output: as
+i don't want all the brackets, quotes or commas
 """
 
 
