@@ -42,33 +42,65 @@ class arrays:
 """
 
 
-	
-	
-
-
 word = input('Input word: ')	#Input from User
 
 word = word.lower()				#Converts input to all Lowercase
+
+wordLength = len(word)
 
 workingWord = list(word)		#Takes each letter of the word and puts it in array
 
 print("\nstarting word:", word)	#~~~TESTING~~~
 
-a=0
-length = len (getattr(arrays(), word[a]) )	#gets length of characterset for first letter
+element=0
+length = len (getattr(arrays(), word[element]) )	#gets length of characterset for first letter
 print ("length", length)	#~~~TESTING~~~
 print("\nTest...\n")		#~~~TESTING~~~
 
-tempChar = getattr(arrays(), word[a])	#Pulls the current working value from the character array and assignes it to temp
-for i in range(length):		#Loops through leet characters of first element
-	workingWord[a] = tempChar[i]		#Assigns current character to word
-	print("\nWorking Word: ", "".join(workingWord))
-	print("word:" + str(workingWord))	#Prints the output with out the crap around the list, that is what .join is for
-	#print("WOrking word output:" + str(workingWord))
+tempChar = getattr(arrays(), word[element])	#Pulls the current working value from the character array and assignes it to temp
+for i in range(length):					#Loops through leet characters of first element
+	workingWord[element] = tempChar[i]		#Assigns current character to word
+	print("\nWord: ", "".join(workingWord))	#Displays current itteration of the word
+
+
+element += 1	
+tempChar = getattr(arrays(), word[element])
+elementLength = len( getattr(arrays(), word[element]) )
+
+if workingWord[element] != tempChar[-1]:		#checks to see if second element is at the end
 	
+	for z in range(elementLength):
+		if workingWord[element] == tempChar[z]:
+			workingWord[element] = tempChar[z+1]
+			break
+		
+	#gets confusing...
+elif workingWord[element] == tempChar[-1]:		#if element is at the end of array
+	
+	for x in range(elementLength):				#start looping through that element
+	
+		if workingWord[element] == tempChar[-1]:	#checks if element is at the end
+		
+			if x != wordLength:
+				workingWord[element] == tempChar[0]						#set second element back to start
+				
+			element += 1	
+			elementLength = len( getattr(arrays(), word[element]) )	#grab value from next element over
+			tempChar2 = getattr(arrays(), word[element])
+	
+			for y in range(elementLength):
+				
+				if workingWord[element] == tempChar2[y] and workingWord[element] != tempChar2[-1]:
+					
+					workingWord[element] == tempChar[y+1]
+					if workingWord[element] == tempChar2[-1]:
+						break
+					break
 
 
 	
+print("\nWord: ", "".join(workingWord))
+			
 """	
 
 class endgame:
