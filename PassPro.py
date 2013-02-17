@@ -29,17 +29,20 @@ class arrays:
 	#ABC = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 	#123 = list('1234567890')
 	#spl = list('~`!@#$%^&*()-_+=')
-	
-"""
-	num = 'a'
-	num2 = 'b'
 
-	z = getattr(arrays(), num)
-	z2 = getattr(arrays(), num2)
-
-	print (z)
-	print (z2)
-"""
+def endgame(workingWord):
+	done = 0
+	for i in range(len(workingWord)):		
+		lastElement = getattr(arrays(), word[i])
+		if workingWord[i] == lastElement[-1]:
+			done += 1
+			#print("NOPE")		#~~~TESTING~~~
+		else:
+			break
+		if done == len(workingWord):
+			finished = 86
+			return finished
+#program finished
 
 
 word = input('Input word: ')	#Input from User
@@ -51,70 +54,100 @@ wordLength = len(word)
 workingWord = list(word)		#Takes each letter of the word and puts it in array
 
 print("\nstarting word:", word)	#~~~TESTING~~~
-
+finished = 0
 element=0
 length = len (getattr(arrays(), word[element]) )	#gets length of characterset for first letter
-print ("length", length)	#~~~TESTING~~~
-print("\nTest...\n")		#~~~TESTING~~~
+print ("length", length)		#~~~TESTING~~~
+print("\nTest...\n")			#~~~TESTING~~~
 
-tempChar = getattr(arrays(), word[element])	#Pulls the current working value from the character array and assignes it to temp
-for i in range(length):					#Loops through leet characters of first element
-	workingWord[element] = tempChar[i]		#Assigns current character to word
-	print("\nWord: ", "".join(workingWord))	#Displays current itteration of the word
-
-
-element += 1	
-tempChar = getattr(arrays(), word[element])
-elementLength = len( getattr(arrays(), word[element]) )
-
-if workingWord[element] != tempChar[-1]:		#checks to see if second element is at the end
+while finished != 86:
 	
-	for z in range(elementLength):
-		if workingWord[element] == tempChar[z]:
-			workingWord[element] = tempChar[z+1]
-			break
+
+	tempChar = getattr(arrays(), word[0])	#Pulls the current working value from the character array and assignes it to temp
+	for i in range(length):						#Loops through leet characters of first element, (element0)
+		workingWord[0] = tempChar[i]		#Assigns current character to word
+		print("\nWord: ", "".join(workingWord))	#Displays current itteration of the word
+
+	print("~~~~~~~~~~~~~~")
+	if endgame(workingWord) == 86:
+		print("after call, endgame is: ", endgame(workingWord))	#~~~TESTING~~~
+		break
+	#print("after call, endgame is: ", endgame(workingWord))		#~~~TESTING~~~
+
 		
-	#gets confusing...
-elif workingWord[element] == tempChar[-1]:		#if element is at the end of array
 	
-	for x in range(elementLength):				#start looping through that element
-	
-		if workingWord[element] == tempChar[-1]:	#checks if element is at the end
+	tempChar = getattr(arrays(), word[1])
+	elementLength = len( getattr(arrays(), word[1]) )
+
+	if workingWord[1] != tempChar[-1]:		#checks to see if second element is at the end
 		
-			if x != wordLength:
-				workingWord[element] == tempChar[0]						#set second element back to start
-				
-			element += 1	
-			elementLength = len( getattr(arrays(), word[element]) )	#grab value from next element over
-			tempChar2 = getattr(arrays(), word[element])
-	
-			for y in range(elementLength):
-				
-				if workingWord[element] == tempChar2[y] and workingWord[element] != tempChar2[-1]:
-					
-					workingWord[element] == tempChar[y+1]
-					if workingWord[element] == tempChar2[-1]:
-						break
-					break
-
-
-	
-print("\nWord: ", "".join(workingWord))
+		for z in range(elementLength):
+			if workingWord[1] == tempChar[z]:
+				workingWord[1] = tempChar[z+1]
+				break
 			
-"""	
+		#gets confusing...
+	elif workingWord[1] == tempChar[-1]:		#if element is at the end of array
+		
+		element = 1	
+		for x in range(1,wordLength):				#loops through each element of the word
+			print (x)#~~~TESTING~~~
+			#element = x
+			if workingWord[x] == tempChar[-1]:	#checks if element is at the end
+			
+				if x != wordLength:						#checks if element isn't the last element
+					workingWord[x] = tempChar[0]		#sets element back to start
+					
+				#print ("working word: ", "".join(workingWord))	#~~~TESTING~~~
+				
+				elementB = element + 1	#increments the working element
+				tempChar2 = getattr(arrays(), word[elementB])
+				elementLength = len( tempChar2 )	#grab value from next element over
+				
+				
+				#print("temp char: ",tempChar2," element length: ",elementLength)#~~~TESTING~~~
+				#pause = input('Pause: ')#~~~TESTING~~~
+				
+				for y in range(elementLength):
+					if workingWord[elementB] == tempChar2[y] and workingWord[elementB] != tempChar2[-1]:
+						print("temp char: ",tempChar2[y]," workingWord[elementB]", workingWord[elementB])#~~~TESTING~~~
+						#pause = input('Pause: ')#~~~TESTING~~~
+						workingWord[elementB] = tempChar2[y+1]
+						#break
+						print("temp char: ",tempChar2[y]," workingWord[elementB]", workingWord[elementB])#~~~TESTING~~~
+						y = elementLength
+						print("this is Y: ", y)
+					if workingWord[elementB] == tempChar2[-1]:
+						print("before")#~~~TESTING~~~
+						break
+						
+						
 
-class endgame:
-	done = 0
-	for i in range(len(workingWord)):		
-		lastElement = getattr(arrays(), word[i])
-		if workingWord[i] == lastElement[-1]:
-			done += 1
-		#else BREAK
-		#if done == len(workingWord)
-#program finished
+
+			else:
+				#pass
+				x = elementLength +1
+			
+			if elementB <= len(workingWord):
+				elementB += 1
+
+			
+
+
+
+"""
+	num = 'a'
+	num2 = 'b'
+
+	z = getattr(arrays(), num)
+	z2 = getattr(arrays(), num2)
+
+	print (z)
+	print (z2)
+	
 	
 
-class cycle:
+def cycle:
 	
 	tempChar = getattr(arrays(), word[a])	#Pulls the current working value from the character array and assignes it to temp
 	
