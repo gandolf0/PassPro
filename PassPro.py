@@ -1,3 +1,4 @@
+import sys
 class arrays:
 	a = list('aA@4')
 	b = list('bB8')
@@ -83,16 +84,36 @@ def conversion(word):
 
 		element = 1					
 		increment(word, workingWord, element)	#calls the 'increment' function to increment the rest of the elements
+	#return
 
-#~~~~~~~~~~~PROGRAM STARTS HERER~~~~~~~~~~~	
+def file(fileName):
+	with open(fileName, "r") as f:
+		lines = f.read().splitlines()
+	
+	numLines = len(lines)
+	for i in range(numLines):
+		print("# of lines",numLines)
+		print("word: ",lines[i])#~~~~~TESTING~~~~~
+		conversion(lines[i])
+		print("DONE WITH 1\n\n")
+		
+#~~~~~~~~~~~PROGRAM STARTS HERE~~~~~~~~~~~	
 
+
+
+#word = sys.argv[1]#~~~~~TESTING~~~~~
 word = input('Input word: ')	#Input from User
 word = word.lower()				#Converts input to all Lowercase
-conversion (word)
+conversion (word)				#Calls the conversion function with the user inputed variable
+print("~~~~NEXT TRY~~~~")
+filename = "test.txt"		#~~~~~TESTING~~~~~
+file(filename)				#~~~~~TESTING~~~~~
+		
+ 
 
 
 
-
+#print sys.argv
 
 
 
