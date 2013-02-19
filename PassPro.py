@@ -26,10 +26,10 @@ class arrays:
 	x = list('xX')
 	y = list('yY')
 	z = list('zZ')
-	abc = list('abcdefghijklmnopqrstuvwxyz')
-	ABC = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-	num = list('1234567890')
-	spc = list('~`!@#$%^&*()-_+=[]\{}|;:",./<>?')
+	L = list('abcdefghijklmnopqrstuvwxyz')
+	U = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+	N = list('1234567890')
+	S = list('~`!@#$%^&*()-_+=[]\{}|;:",./<>?')
 
 def endgame(workingWord, word):
 	done = 0
