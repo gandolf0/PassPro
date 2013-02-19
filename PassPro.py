@@ -29,9 +29,9 @@ class arrays:
 	abc = list('abcdefghijklmnopqrstuvwxyz')
 	ABC = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 	num = list('1234567890')
-	spc = list('~`!@#$%^&*()-_+=')
+	spc = list('~`!@#$%^&*()-_+=[]\{}|;:",./<>?')
 
-def endgame(workingWord):
+def endgame(workingWord, word):
 	done = 0
 	for i in range(len(workingWord)):		
 		lastElement = getattr(arrays(), word[i])
@@ -78,8 +78,7 @@ def conversion(word):
 			workingWord[0] = tempChar[i]		#Assigns current character to word
 			print("".join(workingWord))			#Displays current itteration of the word
 
-		#print("~~~~~~~~~~~~~~")	#~~~~~TESTING~~~~~
-		if endgame(workingWord) == 86:	#calls the function 'endgame' to find out if all itterations have been accomplished
+		if endgame(workingWord, word) == 86:	#calls the function 'endgame' to find out if all itterations have been accomplished
 			break						#breaks out of the while loop if all itterations have been accomplished
 
 		element = 1					
@@ -92,22 +91,33 @@ def file(fileName):
 	
 	numLines = len(lines)
 	for i in range(numLines):
-		print("# of lines",numLines)
-		print("word: ",lines[i])#~~~~~TESTING~~~~~
 		conversion(lines[i])
-		print("DONE WITH 1\n\n")
+
+
+def cliProcess(cliInput):
+	for i in range(1, len(cliInput)):	#loops through the CLI peramaters
 		
+		if cliInput[i] == "-f":			#checks for File Input option
+			file(cliInput[i+1])			#take the file name and passes it to the 'file' function
+		
+		elif cliInput[i] == "-w":
+			conversion(cliInput[i+1])
+
+	
+	
 #~~~~~~~~~~~PROGRAM STARTS HERE~~~~~~~~~~~	
 
 
 
-#word = sys.argv[1]#~~~~~TESTING~~~~~
-word = input('Input word: ')	#Input from User
-word = word.lower()				#Converts input to all Lowercase
-conversion (word)				#Calls the conversion function with the user inputed variable
-print("~~~~NEXT TRY~~~~")
-filename = "test.txt"		#~~~~~TESTING~~~~~
-file(filename)				#~~~~~TESTING~~~~~
+cliProcess(sys.argv)#~~~~~TESTING~~~~~
+
+
+#word = input('Input word: ')	#Input from User
+#word = word.lower()				#Converts input to all Lowercase
+#conversion (word)				#Calls the conversion function with the user inputed variable
+#print("~~~~NEXT TRY~~~~")
+#filename = "test.txt"		#~~~~~TESTING~~~~~
+#file(filename)				#~~~~~TESTING~~~~~
 		
  
 
