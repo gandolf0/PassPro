@@ -26,18 +26,19 @@ class arrays:
 	x = list('xX')
 	y = list('yY')
 	z = list('zZ')
+	G = list()
 	L = list('abcdefghijklmnopqrstuvwxyz')
 	U = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 	N = list('1234567890')
 	S = list('~`!@#$%^&*()-_+=[]\{}|;:",./<>?')
+			# !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
 
 def endgame(workingWord, word):
 	done = 0
 	for i in range(len(workingWord)):		
-		lastElement = getattr(arrays(), word[i])
+		lastElement = getattr(myArray, word[i])
 		if workingWord[i] == lastElement[-1]:
 			done += 1
-			#print("NOPE")		#~~~TESTING~~~
 		else:
 			break
 		if done == len(workingWord):
@@ -46,8 +47,8 @@ def endgame(workingWord, word):
 
 def increment(word, workingWord, element):
 		
-		tempChar = getattr(arrays(), word[element])				#Gets the list for the respective element in 'word'
-		elementLength = len( getattr(arrays(), word[element]) )	#Gets the length of that list
+		tempChar = getattr(myArray, word[element])				#Gets the list for the respective element in 'word'
+		elementLength = len( getattr(myArray, word[element]) )	#Gets the length of that list
 		
 		if workingWord[element] != tempChar[-1]:			#checks if element in workingWord IS NOT at the end
 			
@@ -65,15 +66,17 @@ def increment(word, workingWord, element):
 		return workingWord
 
 def conversion(word):
-	
-	wordLength = len(word)			#determines the length of the inputed word
 	workingWord = list(word)		#Takes each letter of the word and puts it in array
 	finished = 0
-	length = len (getattr(arrays(), word[0]) )	#gets length of characterset for first letter
-
+	length = len (getattr(myArray, word[0]) )	#gets length of characterset for first letter
+	
+	for z in range(len(word)):					#loop for initilazing the variables
+		tempList = getattr(myArray, word[z])
+		workingWord[z] = tempList[0]
+		
 	while finished != 86:
 
-		tempChar = getattr(arrays(), word[0])	#Pulls the current working value from the character array and assignes it to temp
+		tempChar = getattr(myArray, word[0])	#Pulls the current working value from the character array and assignes it to temp
 		for i in range(length):					#Loops through leet characters of first element, (element0)
 			workingWord[0] = tempChar[i]		#Assigns current character to word
 			print("".join(workingWord))			#Displays current itteration of the word
@@ -83,16 +86,30 @@ def conversion(word):
 
 		element = 1					
 		increment(word, workingWord, element)	#calls the 'increment' function to increment the rest of the elements
-	#return
 
 def file(fileName):
 	with open(fileName, "r") as f:
 		lines = f.read().splitlines()
-	
 	numLines = len(lines)
 	for i in range(numLines):
-		conversion(lines[i])
+		conversion(lines[i].lower())
 
+def generator(num, options):
+	tempList = []
+	passLength = []
+	print("num: ",num," options: ",options)
+	for i in range(len(options)):
+		tempList = tempList + getattr(myArray, options[i])
+	setattr(myArray, 'G', tempList)
+
+	for x in range(int(num)):
+		passLength += "G"
+	print("G-Unit",passLength)
+	conversion(passLength)
+
+		
+def printTest(stuff):#~~~~~TESTING~~~~~
+	print (stuff)	
 
 def cliProcess(cliInput):
 	for i in range(1, len(cliInput)):	#loops through the CLI peramaters
@@ -100,64 +117,16 @@ def cliProcess(cliInput):
 		if cliInput[i] == "-f":			#checks for File Input option
 			file(cliInput[i+1])			#take the file name and passes it to the 'file' function
 		
-		elif cliInput[i] == "-w":
-			conversion(cliInput[i+1])
+		elif cliInput[i] == "-g":
+			print ("here?")
+			generator(cliInput[i+1], cliInput[i+2])	#calls 'generator' function, passes NUMBER first, then OPTIONS
+
+		elif cliInput[i] == "-w":				#checks for user input of a word
+			conversion(cliInput[i+1].lower())	#passes the lowercase word to the 'conversion' function
 
 	
 	
 #~~~~~~~~~~~PROGRAM STARTS HERE~~~~~~~~~~~	
 
-
-
-cliProcess(sys.argv)#~~~~~TESTING~~~~~
-
-
-#word = input('Input word: ')	#Input from User
-#word = word.lower()				#Converts input to all Lowercase
-#conversion (word)				#Calls the conversion function with the user inputed variable
-#print("~~~~NEXT TRY~~~~")
-#filename = "test.txt"		#~~~~~TESTING~~~~~
-#file(filename)				#~~~~~TESTING~~~~~
-		
- 
-
-
-
-#print sys.argv
-
-
-
-
-
-
-
-
-
-"""
-	num = 'a'
-	num2 = 'b'
-
-	z = getattr(arrays(), num)
-	z2 = getattr(arrays(), num2)
-
-	print (z)
-	print (z2)
-
-EXAMPLE STUFFs...
-
-#"sqlimg%d" % var
-
-for x in a:
-	print(x)
-
-#WORKS#
-for i in range(len(word)):
-	
-	print(wordStart[i])
-
-"""
-
-
-
-
-
+myArray = arrays()
+cliProcess(sys.argv)
