@@ -1,3 +1,5 @@
+from itertools import product
+
 class PassPro(object):
     
     def __init__(self, user_input):
@@ -8,17 +10,8 @@ class PassPro(object):
                  'q': 'qQ', 'r': 'rR', 's': 'sS$', 't': 'tT!+7', 'u': 'uU', \
                  'v': 'vV', 'w': 'wW', 'x': 'xX', 'y': 'yY', 'z': 'zZ'}
 
-        self.output = self.convert(*map(self.alphabet.get, self.user_input))        
-            
-    def convert(self, *args, **kwds):
-        lists = map(tuple, args) * kwds.get('repeat', 1)
-        result = [[]]
-        for i in lists:
-            result = [x+[y] for x in result for y in i]
-        for j in result:
-            yield tuple(j)
-            
-                
+        self.output = product(*map(self.alphabet.get, self.user_input))
+               
         
 user_input = raw_input('gimme: ')
 user_input = user_input.lower()
