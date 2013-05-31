@@ -1,7 +1,8 @@
 #!/usr/bin/python
-from itertools import product
+from itertools import product, permutations
 from optparse import OptionParser
 from string import ascii_letters, ascii_lowercase, ascii_uppercase, digits, punctuation
+from re import sub
 
 class PassPro(object):
     
@@ -45,13 +46,13 @@ class PassPro(object):
                            'LU': ascii_letters,
                            'LN': ascii_lowercase + digits,
                            'LS': ascii_lowercase + punctuation,
-                           'LUN': ascii_lowercase + ascii_uppercase + digits,
-                           'LNS': ascii_lowercase + digits + ascii_uppercase,
-                           'LUNS': ascii_lowercase + digits + ascii_uppercase + punctuation,
+                           'LUN': ascii_letters + digits,
+                           'LNS': ascii_lowercase + digits + punctuation,
+                           'LUNS': ascii_letters + digits + punctuation,
                            'UN': ascii_uppercase + digits,
                            'US': ascii_uppercase + punctuation,
                            'NS': digits + punctuation, 
-                           'LUS': ascii_lowercase + ascii_uppercase + punctuation}
+                           'LUS': ascii_letters + punctuation}
         self.cli_parse()
         
     def cli_parse(self):
@@ -66,10 +67,13 @@ class PassPro(object):
                                choices = ['L', 'U', 'N', 'S', 'LU', 'LN', 'LS',
                                           'LUN', 'LUS', 'LNS', 'LUNS', 'UN', 'US',
                                           'NS'], dest = 'gen_opts', 
-                               help = 'brute force generator', metavar = 'ARGS')
+                               help = 'brute force generator (requires -l)', metavar = 'ARGS')
         self.parser.add_option('-k', '--walker', dest = 'walker_opts', 
                                help = 'keyboard pattern generator',
                                metavar = 'ARGS')
+        self.parser.add_option('-l', '--length', dest = 'length', 
+                               help = 'option of length for generator (required with -g)',
+                               metavar = 'NUM')
         self.parser.add_option('-c', '--custom', 
                                help = 'check for file with custom variables',
                                dest = 'customize', metavar = 'FILE')
@@ -88,8 +92,8 @@ class PassPro(object):
             output_object = self.output_words(self.opts.user_input)
             for i in output_object:
                 print ''.join(i)
-        elif self.opts.gen_opts: ## -g
-                self.generator(self.opts.gen_opts)
+        elif self.opts.gen_opts and self.opts.length: ## -g
+                self.generator(self.opts.gen_opts, self.opts.length)
         elif self.opts.walker_opts: ## -k 
             self.walker(self.opts.walker_opts)
         elif self.opts.customize: ## -c
@@ -109,8 +113,13 @@ class PassPro(object):
         
     def help(self):
         print 'help'
-    def generator(self, gen_sets):
-        print self.alpha_sets.get(gen_sets)
+    def generator(self, gen_sets, length):
+        length = int(length)
+        brute = permutations((self.alpha_sets.get(gen_sets) + ' ' * (length - 1)), length)
+        for i in brute:
+            i = ''.join(i)
+            print sub(" +", '', i)
+            
     def walker(self, walker_sets):
         '''  '''
         pass
