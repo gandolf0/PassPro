@@ -6,12 +6,7 @@ from timeit import Timer
 
 class PassPro(object):
     
-    def __init__(self):
-        
-
-# first argument is the code to be run, the second "setup" argument is only run once,
-# and it not included in the execution time.
-        
+    def __init__(self):  
         
         self.alphabet = {'a': 'aA@4', 'b': 'bB8', 'c': 'cC(', 'd': 'dD', \
                          'e': 'eE3', 'f': 'fF', 'g': 'gG69', 'h': 'h#H', \
