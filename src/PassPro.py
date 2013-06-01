@@ -1,12 +1,17 @@
 #!/usr/bin/python
-from itertools import product, permutations
+from itertools import chain, product
 from optparse import OptionParser
-from string import ascii_letters, ascii_lowercase, ascii_uppercase, digits, punctuation
-from re import sub
+from string import ascii_lowercase, ascii_uppercase, digits, punctuation
+from timeit import Timer
 
 class PassPro(object):
     
     def __init__(self):
+        
+
+# first argument is the code to be run, the second "setup" argument is only run once,
+# and it not included in the execution time.
+        
         
         self.alphabet = {'a': 'aA@4', 'b': 'bB8', 'c': 'cC(', 'd': 'dD', \
                          'e': 'eE3', 'f': 'fF', 'g': 'gG69', 'h': 'h#H', \
@@ -42,17 +47,7 @@ class PassPro(object):
                                  "3er4", "4re3", "$RT%", "%TR$", "4rt5", \
                                  "5tr4", "%TY^", "^YT%", "5ty6", "6yt5"],
                            'L': ascii_lowercase, 'U': ascii_uppercase,
-                           'N': digits, 'S': punctuation,
-                           'LU': ascii_letters,
-                           'LN': ascii_lowercase + digits,
-                           'LS': ascii_lowercase + punctuation,
-                           'LUN': ascii_letters + digits,
-                           'LNS': ascii_lowercase + digits + punctuation,
-                           'LUNS': ascii_letters + digits + punctuation,
-                           'UN': ascii_uppercase + digits,
-                           'US': ascii_uppercase + punctuation,
-                           'NS': digits + punctuation, 
-                           'LUS': ascii_letters + punctuation}
+                           'N': digits, 'S': punctuation,}
         self.cli_parse()
         
     def cli_parse(self):
@@ -72,10 +67,10 @@ class PassPro(object):
                                help = 'keyboard pattern generator',
                                metavar = 'ARGS')
         self.parser.add_option('-l', '--length', dest = 'length', 
-                               help = 'option of length for generator (required with -g)',
+                               help = 'option of length for generator (required with -g and -c)',
                                metavar = 'NUM')
         self.parser.add_option('-c', '--custom', 
-                               help = 'check for file with custom variables',
+                               help = 'custom character set for generator (requires -l)',
                                dest = 'customize', metavar = 'FILE')
         self.parser.add_option('-v', '--verbose', action="count", 
                                dest='verbosity', default = 1, 
@@ -91,13 +86,17 @@ class PassPro(object):
         elif self.opts.user_input: ## -w
             output_object = self.output_words(self.opts.user_input)
             for i in output_object:
-                print ''.join(i)
+                print ''.join(i)           
         elif self.opts.gen_opts and self.opts.length: ## -g
-                self.generator(self.opts.gen_opts, self.opts.length)
+            gen_obj = self.generator(self.opts.gen_opts, self.opts.length)
+            for i in gen_obj:
+                print i    
         elif self.opts.walker_opts: ## -k 
             self.walker(self.opts.walker_opts)
-        elif self.opts.customize: ## -c
-            self.custom(self.opts.customize)
+        elif self.opts.customize and self.opts.length: ## -c
+            cust_obj = self.custom(self.opts.customize, self.opts.length)
+            for i in cust_obj:
+                print i
         else: ## no options
             print self.parser.get_usage()
         
@@ -113,19 +112,28 @@ class PassPro(object):
         
     def help(self):
         print 'help'
+        
     def generator(self, gen_sets, length):
-        length = int(length)
-        brute = permutations((self.alpha_sets.get(gen_sets) + ' ' * (length - 1)), length)
-        for i in brute:
-            i = ''.join(i)
-            print sub(" +", '', i)
+        ''' Generates every possible combination of generic character sets with a given length '''
+        set_list = []
+        for option in gen_sets:
+            set_list.append(self.alpha_sets.get(option))
+        chars = ''.join(set_list)
+        return (''.join(combination) for combination in 
+                chain.from_iterable(product(chars, repeat=i) 
+                                              for i in range(1, int(length) + 1)))
+    def custom(self, chars, length):
+        ''' Generates every possible combination of user-defined character sets with a given length '''
+        return (''.join(combination) for combination in 
+                chain.from_iterable(product(chars, repeat=i) 
+                                              for i in range(1, int(length) + 1)))
             
     def walker(self, walker_sets):
         '''  '''
         pass
-    def custom(self, customize):
-        print 'custom'
     def output_words(self, user_input):
         return product(*map(self.alphabet.get, user_input))
+    
+    
         
 password = PassPro()
