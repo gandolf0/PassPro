@@ -4,6 +4,7 @@ from optparse import OptionParser
 from string import ascii_lowercase, ascii_uppercase, digits, punctuation
 from hashlib import new
 from binascii import hexlify
+import re
 
 '''
 -- TODO --
@@ -171,27 +172,42 @@ class PassPro(object):
         word_list = open('ComboFile.txt')
         print '** If you entered a single hash through the CLI, leave the file entry blank. **'
         user_file = raw_input('Please specify the file of hashes you\'d like to crack: ')
+        CRACKED = False 
         try:
             input_file = open(user_file)
-            for hash in input_file:
-                hash = hash.strip('\n')
-                for line in word_list:
-                    #print 'line is', line, 'and is', len(line), 'long'
-                    line = line.strip('\n')
-                    if len(line) <= 8:
-                        hashed_pw = hexlify(new('md4', line.encode('utf-16le')).digest()).upper()
-                        if hashed_pw == hash:
-                            print 'The password is', line
-                            word_list.seek(0)
-                            break
-                    else:
-                        first_half = line[:8]
-                        second_half = line[8:]
-                        first_hash = hexlify(new('md4', first_half.encode('utf-16le')).digest()).upper()
-                        second_hash = hexlify(new('md4', second_half.encode('utf-16le')).digest()).upper()
-                        if first_hash == hash or second_hash == hash:
-                            print 'The first part of the password is', first_half
-                            print 'The second part of the password is', second_half
+            while not CRACKED:
+                for hash in input_file:
+                    hash = hash.strip('\n')
+                    groups = re.split(':', hash)
+                    user = groups[0]
+                    hash_1 = groups[2]
+                    hash_2 = groups[3]
+                    for line in word_list:
+                        line = line.strip('\n')
+                        if len(line) <= 8:
+                            hashed_pw = hexlify(new('md4', line.encode('utf-16le')).digest()).upper()
+                            if hashed_pw == hash_1:
+                                hash_1 = line
+                                word_list.seek(0)
+                            elif hashed_pw == hash_2:
+                                hash_2 = line
+                                word_list.seek(0)
+                            if len(hash_1) < 32 and len(hash_2) < 32:
+                                print '[*]', user + ':', hash_1 + hash_2
+                                word_list.seek(0)
+                                CRACKED = True
+                                break
+                        else:
+                            first_half = line[:8]
+                            second_half = line[8:]
+                            first_hash = hexlify(new('md4', first_half.encode('utf-16le')).digest()).upper()
+                            second_hash = hexlify(new('md4', second_half.encode('utf-16le')).digest()).upper()
+                            if first_hash == hash_1 or second_hash == hash_2:
+                                print '[*]', user + ':', first_half
+                                print '[*]', user + ':', second_half
+                                break
+                            ## need an end of file handler
+                    
         except IOError:
             for line in word_list:
                 line = line.strip('\n')
